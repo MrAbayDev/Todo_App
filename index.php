@@ -7,10 +7,7 @@ date_default_timezone_set('Asia/Tashkent');
 
 $update = json_decode(file_get_contents('php://input'));
 
-if (isset($update)) {
-    require 'bot.php';
-    return;
-}
+
 if (count($_GET) > 0 || count($_POST) > 0) {
     $task = new Task();
 
@@ -19,15 +16,15 @@ if (count($_GET) > 0 || count($_POST) > 0) {
     }
 
     if (isset($_GET['complete'])) {
-        $task->complete((int)$_GET['complete']);
+        $task->complete($_GET['complete']);
     }
 
     if (isset($_GET['uncompleted'])) {
-        $task->uncompleted((int)$_GET['uncompleted']);
+        $task->uncompleted($_GET['uncompleted']);
     }
 
     if (isset($_GET['delete'])) {
-        $task->delete((int)$_GET['delete']);
+        $task->delete($_GET['delete']);
     }
 }
 

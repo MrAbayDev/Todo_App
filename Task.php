@@ -13,16 +13,11 @@ class Task
 
     public function add(string $text): bool
     {
-        try {
-            $status = false;
-            $stmt = $this->pdo->prepare("INSERT INTO tasks (text, status) VALUES (:text, :status)");
-            $stmt->bindParam(':text', $text);
-            $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            echo "Failed to add task: " . $e->getMessage();
-            return false;
-        }
+        $status = false; // Yangi vazifa uchun statusni belgilash
+        $stmt   = $this->pdo->prepare("INSERT INTO tasks (text, status) VALUES (:text, :status)");
+        $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
+        return $stmt->execute();
     }
 
 
@@ -33,21 +28,23 @@ class Task
 
     public function complete(int $id): bool
     {
-        $status = true;
-        $stmt   = $this->pdo->prepare("UPDATE tasks  SET status=:status WHERE id = :id");
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
-        return $stmt->execute();
-    }
-
-    public function uncompleted(int $id): bool
-    {
-        $status = false;
+        $status = true; // Vazifani to'liq qilish
         $stmt   = $this->pdo->prepare("UPDATE tasks SET status=:status WHERE id = :id");
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
         return $stmt->execute();
     }
+
+
+    public function uncompleted(int $id): bool
+    {
+        $status = false; // Vazifani bajarilmagan holatga o'tkazish
+        $stmt   = $this->pdo->prepare("UPDATE tasks SET status=:status WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
+        return $stmt->execute();
+    }
+
 
     public function delete(int $id): bool
     {

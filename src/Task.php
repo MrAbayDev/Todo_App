@@ -13,7 +13,7 @@ class Task
 
     public function add(string $text): bool
     {
-        $status = false; // Yangi vazifa uchun statusni belgilash
+        $status = false;
         $stmt   = $this->pdo->prepare("INSERT INTO tasks (text, status) VALUES (:text, :status)");
         $stmt->bindParam(':text', $text);
         $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
@@ -28,7 +28,7 @@ class Task
 
     public function complete(int $id): bool
     {
-        $status = true; // Vazifani to'liq qilish
+        $status = true;
         $stmt   = $this->pdo->prepare("UPDATE tasks SET status=:status WHERE id = :id");
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
@@ -38,7 +38,7 @@ class Task
 
     public function uncompleted(int $id): bool
     {
-        $status = false; // Vazifani bajarilmagan holatga o'tkazish
+        $status = false;
         $stmt   = $this->pdo->prepare("UPDATE tasks SET status=:status WHERE id = :id");
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
